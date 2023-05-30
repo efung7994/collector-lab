@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+<link 
+  rel="stylesheet"
+  type="text/css"
+  href="{% static 'css/crocs/croc-index.css' %}"
+/>
+{% endblock %}
+
+{% block content %}
+
+
+{% comment %} <section class="page-header">
+  <h1>Cat List</h1>
+  <img src="{% static 'images/cool-cat.svg' %}" alt="A cool cat" />
+  <img src="{% static 'images/happy-cat.svg' %}" alt="A happy cat" />
+  <img src="{% static 'images/teacup-cat.svg' %}" alt="A cat in a teacup" />
+  <img src="{% static 'images/cat-in-box.svg' %}" alt="A cat in a box" />
+</section> {% endcomment %}
+
+<section class="card-container">
+  {% for croc in crocs %}
+    <div class="card">
+      <div class="card-content">
+        <div class="card-img-container">
+          <img 
+            src="{% static 'images/croc-skate.avif' %}" 
+            alt="A skater boy croc"
+          >
+        </div>
+        <h2 class="card-title">{{ croc.name }}</h2>
+        {% if croc.age > 0 %}
+          <p>A {{ croc.age }} year old {{ croc.breed }}</p>
+        {% else %}
+          <p>A {{ croc.breed }} kitten.</p>
+        {% endif %}
+        <p><small>{{ croc.description }}</small></p>
+      </div>
+    </div>
+  {% endfor %}
+</section>
+
+{% endblock %}
