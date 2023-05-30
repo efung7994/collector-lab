@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+<link 
+  rel="stylesheet" 
+  type="text/css" 
+  href="{% static 'css/crocs/croc-detail.css' %}"
+/>
+{% endblock %}
+
+{% block content %}
+
+<section class="croc-container">
+  <div class="croc-img">
+    <img 
+      src="{% static 'images/croc-skate.jpeg' %}" 
+      alt="A skater boy croc"
+    >
+  </div>
+  <div class="croc-details">
+    <h1>{{ croc.name }}</h1>
+    {% if croc.age > 0 %}
+      <h2>A {{ croc.age }} year old {{ croc.breed }}</h2>
+    {% else %}
+      <h2>A {{ croc.breed }} kitten.</h2>
+    {% endif %}
+    <p>{{ croc.description }}</p>
+  </div>
+</section>
+
+{% endblock %}
