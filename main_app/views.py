@@ -1,6 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from .models import Croc
+from .forms import FeedingForm
 
 # Add the following import
 from django.http import HttpResponse
@@ -18,7 +19,8 @@ def croc_index(request):
 
 def croc_detail(request, croc_id):
   croc = Croc.objects.get(id=croc_id)
-  return render(request, 'crocs/detail.html', { 'croc': croc })
+  feeding_form = FeedingForm()
+  return render(request, 'crocs/detail.html', { 'croc': croc, 'feeding_form': feeding_form })
 
 class CrocCreate(CreateView):
   model = Croc
@@ -32,3 +34,11 @@ class CrocUpdate(UpdateView):
 class CrocDelete(DeleteView):
   model = Croc
   success_url = '/crocs/'
+
+def add_feeding(request, croc_id):
+  form = FeedingForm(request.POST)
+  if form.is_valid():
+    new_feeding = form.save(commit=False)
+    new_feeding.croc_id = croc_id
+    new_feeding.save()
+  return redirect('croc-detail', croc_id=croc_id)
