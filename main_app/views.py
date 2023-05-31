@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
-from .models import Croc
+from django.views.generic import ListView, DetailView
+from .models import Croc, Toy
 from .forms import FeedingForm
 
 # Add the following import
@@ -19,12 +20,13 @@ def croc_index(request):
 
 def croc_detail(request, croc_id):
   croc = Croc.objects.get(id=croc_id)
+  toys_croc_doesnt_have = Toy.objects.exclude(id__in = croc.toys.all().values_list('id'))
   feeding_form = FeedingForm()
-  return render(request, 'crocs/detail.html', { 'croc': croc, 'feeding_form': feeding_form })
+  return render(request, 'crocs/detail.html', { 'croc': croc, 'feeding_form': feeding_form, 'toys': toys_croc_doesnt_have })
 
 class CrocCreate(CreateView):
   model = Croc
-  fields = '__all__'
+  fields = ['name', 'breed', 'description', 'age']
   success_url = '/crocs/'
 
 class CrocUpdate(UpdateView):
@@ -41,4 +43,26 @@ def add_feeding(request, croc_id):
     new_feeding = form.save(commit=False)
     new_feeding.croc_id = croc_id
     new_feeding.save()
+  return redirect('croc-detail', croc_id=croc_id)
+
+class ToyCreate(CreateView):
+  model = Toy
+  fields = '__all__'
+
+class ToyList(ListView):
+  model = Toy
+
+class ToyDetail(DetailView):
+  model = Toy
+
+class ToyUpdate(UpdateView):
+  model = Toy
+  fields = ['name', 'color']
+
+class ToyDelete(DeleteView):
+  model = Toy
+  success_url = '/toys/'
+
+def assoc_toy(request, croc_id, toy_id):
+  Croc.objects.get(id=croc_id).toys.add(toy_id)
   return redirect('croc-detail', croc_id=croc_id)
