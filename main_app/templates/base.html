@@ -28,8 +28,9 @@
     </div>
     <nav>
       <ul>
-        <li><a href="/crocs">All Crocs</a></li>
-        <li><a href="/about">About</a></li>
+        <li><a href="{% url 'croc-index' %}">All Crocs</a></li>
+        <li><a href="{% url 'croc-create' %}">Add a Croc</a></li>
+        <li><a href="{% url 'about' %}">About</a></li>
       </ul>
     </nav>
   </header>

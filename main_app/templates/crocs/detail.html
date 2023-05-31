@@ -26,6 +26,10 @@
       <h2>A {{ croc.breed }} kitten.</h2>
     {% endif %}
     <p>{{ croc.description }}</p>
+    <div class="croc-actions">
+      <a href="{% url 'croc-update' croc.id %}" class="btn warn">Edit</a>
+      <a href="{% url 'croc-delete' croc.id %}" class="btn danger">Delete</a>
+    </div>
   </div>
 </section>
 

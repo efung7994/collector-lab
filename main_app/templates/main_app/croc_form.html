@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/form.css' %}"/>
+{% endblock %}
+
+{% block content %}
+
+<div class="page-header">
+  {% if croc %}
+    <h1>Edit {{ croc.name }}</h1>
+  {% else %}
+    <h1>Add a Croc</h1>
+  {% endif %}
+  <img src="{% static 'images/croc-pad.png' %}" alt="A Croc using a computer"/>
+</div>
+<form action="" method="post" class="form-container">
+  {% csrf_token %}
+  <table>
+    {{ form.as_table }}
+  </table>
+  <button type="submit" class="btn submit">Submit!</button>
+</form>
+
+{% endblock %}
